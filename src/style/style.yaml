@@ -1,0 +1,83 @@
+graph_base:
+    typ: digraph
+    config:
+        rankdir: 'BT' # 'LR' # 'TD' # 'RL' # 
+    #    ranksep: 'equally'
+        nodesep: '1' # 'equally' # 
+        fontname: 'acme' # 'dejavu sans mono' # 
+        fontsize: '28'
+        splines: 'ortho' # 'polyline' # 
+        penwidth: '2'
+        newrank: 'true'
+        compound: 'true'
+    #    style: 'filled'
+    #    fillcolor: 'lightgrey'
+
+node_base:
+    config: 
+        fontname: 'acme' # 'dejavu sans mono' # 
+        fontsize: '24'
+        style: 'filled,rounded'
+        fixedsize: 'true'
+        height: '2'
+        width: '7'
+        shape: 'box'
+        fillcolor: '#ffffff'
+        color: '#000000'
+#        labelloc: 't'
+
+edge_base:
+    config: 
+        penwidth: '2'
+        arrowsize: '1.5'
+        color: 'black'
+
+edge_red:
+    extends: edge_base
+    config: 
+        color: 'red'
+
+subgraph_base:
+    config:
+        labelloc: 't'
+        margin: '40'
+        style: 'filled'
+        fillcolor: 'lightgrey'
+        clusterrank: 'none'
+        ranksep: '1 equally'
+        color: 'white'
+    nodes: []
+    subgraphs: []
+    edges: []
+
+
+manual_task:
+    extends: 'node_base'
+    config: 
+        fillcolor: '#447cb0'
+        color: 'none'
+
+automatic_task:
+    extends: 'node_base'
+    config: 
+        fillcolor: '#ad6a42'
+        color: 'none'
+
+node_type_white:
+    extends: 'node_base'
+    config:
+        fillcolor: 'white'
+        height: '1'
+
+node_type_red:
+    extends: 'node_base'
+    config:
+        fillcolor: 'red'
+        height: '1'
+
+node_type_blue:
+    extends: 'node_base'
+    config:
+        fillcolor: 'blue'
+        height: '2'
+        labelloc: 'b'

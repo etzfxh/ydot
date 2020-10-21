@@ -1,0 +1,108 @@
+workflow:
+
+    nodes:
+        - acquire_data
+        - copy_original_data
+        - annotate_data:
+            label: |
+                Annotate data\n\
+                    - Origin, Genesis\l\
+                    - Meaning of variable names\l\
+        - clean_data
+        - inspect_distributions
+        - acquire_and_prepare_data:
+            extends: manual_task
+            label: Acquire and prepare data
+        - adjust_slurm_parameters:
+            extends: manual_task
+            label: Adjust slurm parameters
+        - adjust_training_parameters:
+            extends: manual_task
+            label: Adjust training parameters
+        - adjust_training_script:
+            extends: manual_task
+            label: Adjust training script
+        - adjust_visualization_script:
+            extends: manual_task
+            label: Adjust visualization script
+        - analyze_training_results:
+            extends: manual_task
+            label: Analyze training results
+        - copy_data_train_valid_test:
+            extends: manual_task
+            label: Copy data train valid test
+        - deliver_best_model:
+            extends: manual_task
+            label: Deliver best model
+        - inspect_data:
+            extends: manual_task
+            label: Inspect data
+        - trigger_training:
+            extends: manual_task
+            label: |
+                Trigger training\n\
+                    - Create model\l\
+                    - Create summary\l\
+        - trigger_visualization:
+            extends: manual_task
+            label: |
+                Trigger visualization\n\
+                    - Amend summary\l\
+        - write_report:
+            extends: manual_task
+            label: Write report
+        - create_slurm_scripts:
+            extends: automatic_task
+            label: Create slurm scripts
+        - init_mission:
+            extends: automatic_task
+            label: |
+                Init mission\n\
+                    - Create file tree\l\
+                    - Copy driver scripts\l\
+                    - Copy report template\l\
+        - init_next_model:
+            extends: automatic_task
+            label: |
+                Init next model\n\
+                    - Create file subtree\l\
+                    - Copy templates\l\
+
+    edges:
+        - 'acquire_data -> copy_original_data'
+        - 'copy_original_data -> annotate_data'
+        - 'copy_original_data -> clean_data'
+        - 'clean_data -> annotate_data'
+        - 'clean_data -> inspect_distributions'
+
+        - 'acquire_and_prepare_data -> copy_data_train_valid_test'
+        - 'init_mission -> copy_original_data'
+        - 'copy_data_train_valid_test -> inspect_data'
+        - 'inspect_data -> init_next_model'
+        - 'init_next_model -> adjust_slurm_parameters'
+        - 'init_next_model -> adjust_training_parameters'
+        - 'init_next_model -> adjust_visualization_script'
+        - 'adjust_slurm_parameters -> create_slurm_scripts'
+        - 'adjust_training_parameters -> adjust_training_script'
+        - 'create_slurm_scripts -> trigger_training'
+        - 'adjust_training_script -> trigger_training'
+        - 'trigger_training -> trigger_visualization'
+        - 'adjust_visualization_script -> trigger_visualization'
+        - 'trigger_visualization -> analyze_training_results'
+        - 'analyze_training_results -> write_report'
+        - 'analyze_training_results -> init_next_model':
+            extends: edge_red
+        - 'inspect_data -> write_report'
+        - 'write_report -> deliver_best_model'
+
+
+#    subgraphs:
+#        - cluster_1:
+#            extends: subgraph_base
+#            nodes:
+#                - node_1
+#                - node_2:
+#                    extends: manual_task
+#            edges:
+#                - 'node_1 -> acquire_and_prepare_data'
+
