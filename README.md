@@ -69,6 +69,16 @@ edge_base:
         penwidth: '2'
         arrowsize: '1.5'
         color: 'black'
+
+# Makefile
+.PHONY: all
+all: petersen_graph.pdf petersen_graph.svg
+
+%.pdf: %.yaml style.yaml
+    bash -ic "ydot $< > $<.dot && cat $<.dot | dot -Tpdf:cairo -o $@"
+
+%.svg: %.yaml style.yaml
+    bash -ic "ydot $< > $<.dot && cat $<.dot | dot -Tsvg:cairo -o $@"
 ```
 
 
